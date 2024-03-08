@@ -5,6 +5,10 @@ namespace HouseRentingSystem.Data.Models
 {
     public class House
     {
+        public House()
+        {
+            this.Id = Guid.NewGuid();   
+        }
         [Key]
         public Guid Id { get; set; }
 
