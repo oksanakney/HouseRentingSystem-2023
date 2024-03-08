@@ -1,5 +1,5 @@
 using HouseRentingSystem.Data;
-using Microsoft.AspNetCore.Identity;
+using HouseRentingSystem.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -8,17 +8,26 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 string connectionString =
     builder.Configuration.GetConnectionString("DefaultConnection");
 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
+builder.Services.AddDbContext<HouseRentingDbContext>(options =>
     options.UseSqlServer(connectionString));
 
 
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 // slagam edin object initializer za opciji za identity
-{
-    options.SignIn.RequireConfirmedAccount = true;
-})
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+    {
+        options.SignIn.RequireConfirmedAccount = 
+            builder.Configuration.GetValue<bool>("Identity:SignIn:RequireConfirmedAccount");
+        options.Password.RequireLowercase =
+            builder.Configuration.GetValue<bool>("Identity:Password:RequireLowercase");
+        options.Password.RequireUppercase =
+            builder.Configuration.GetValue<bool>("Identity:Password:RequireUppercase");
+        options.Password.RequireNonAlphanumeric =
+            builder.Configuration.GetValue<bool>("Identity:Password:RequireNonAlphanumeric");
+        options.Password.RequiredLength =
+            builder.Configuration.GetValue<int>("Identity:Password:RequireLength");
+    })
+    .AddEntityFrameworkStores<HouseRentingDbContext>();
 
 //registrira controllerite
 builder.Services.AddControllersWithViews();

@@ -1,0 +1,26 @@
+﻿using System.ComponentModel.DataAnnotations;
+using static HouseRentingSystem.Common.EntityValidationConstants.Category;
+
+namespace HouseRentingSystem.Data.Models
+{
+    public class Category
+    {
+        public Category()
+        {
+            this.Houses = new HashSet<House>();
+        }
+
+        [Key]
+        public int Id { get; set; }
+
+        [Required]
+        [MaxLength(NameMaxLength)]
+        public string Name { get; set; } = null!;
+
+        public virtual ICollection<House> Houses { get; set; }
+    }
+}
+
+    //• Id – a unique integer, Primary Key
+    //• Name – a string with max length 50 (required)
+    //• Houses – a collection of House
