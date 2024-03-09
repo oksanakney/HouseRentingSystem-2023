@@ -9,6 +9,9 @@ namespace HouseRentingSystem.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<House> builder)
         {
+            builder
+                .Property(h => h.CreatedOn)
+                .HasDefaultValue(DateTime.UtcNow);
             //Here we can write fluent api
             //We write it because we want to forbid deleting
             builder
