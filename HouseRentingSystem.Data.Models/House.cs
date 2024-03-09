@@ -30,6 +30,8 @@ namespace HouseRentingSystem.Data.Models
 
         public decimal PricePerMonth { get; set; }
 
+        public DateTime CreatedOn { get; set; }
+
         public int CategoryId { get; set; }
         public Category Category { get; set; } = null!;
         public Guid AgentId { get; set; }
