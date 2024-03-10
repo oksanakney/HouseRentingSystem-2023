@@ -12,6 +12,10 @@ namespace HouseRentingSystem.Data.Configurations
             builder
                 .Property(h => h.CreatedOn)
                 .HasDefaultValueSql("GETDATE()");
+
+            builder
+                .Property(h => h.IsActive)
+                .HasDefaultValue(true);
             //Here we can write fluent api
             //We write it because we want to forbid deleting
             builder
