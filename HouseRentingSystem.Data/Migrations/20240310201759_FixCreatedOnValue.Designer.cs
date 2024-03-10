@@ -4,6 +4,7 @@ using HouseRentingSystem.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HouseRentingSystem.Data.Migrations
 {
     [DbContext(typeof(HouseRentingDbContext))]
-    partial class HouseRentingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240310201759_FixCreatedOnValue")]
+    partial class FixCreatedOnValue
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -200,20 +202,20 @@ namespace HouseRentingSystem.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("df7b8b0d-c672-495f-8c97-ed60b9bba3cf"),
+                            Id = new Guid("294cf165-4e29-49b9-b8d1-f718bd43964c"),
                             Address = "North London, UK (near the border)",
                             AgentId = new Guid("2c11e7b0-06b1-44d3-b924-a7514ce7d1f8"),
                             CategoryId = 3,
                             CreatedOn = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "A big house for your whole family. Don't miss to buy a house with three bedrooms.",
-                            ImageUrl = "https://images.rosewoodhotels.com/is/image/rwhg/rosewoodmiramarbeach-beachhousesuiteterrace-1:WIDE-LARGE-16-9",
+                            ImageUrl = "https://i.pinimg.com/originals/a6/f5/85/a6f5850a77633c56e4e4ac4f867e3c00.jpg",
                             PricePerMonth = 2100.00m,
                             RenterId = new Guid("89acdcd8-815e-48a9-8fac-08dc3f924ad4"),
                             Title = "Big House Marina"
                         },
                         new
                         {
-                            Id = new Guid("b2caf84b-c861-4971-b5a9-d88fb49c1d63"),
+                            Id = new Guid("4d415835-dcb9-4265-95c6-d4fa19b02268"),
                             Address = "Near the Sea Garden in Burgas, Bulgaria",
                             AgentId = new Guid("2c11e7b0-06b1-44d3-b924-a7514ce7d1f8"),
                             CategoryId = 2,
@@ -225,7 +227,7 @@ namespace HouseRentingSystem.Data.Migrations
                         },
                         new
                         {
-                            Id = new Guid("62f2f316-0fad-4e7b-a114-d468aac44529"),
+                            Id = new Guid("3c73b4f6-572d-4444-9fc1-5e690af7bc51"),
                             Address = "Boyana Neighbourhood, Sofia, Bulgaria",
                             AgentId = new Guid("2c11e7b0-06b1-44d3-b924-a7514ce7d1f8"),
                             CategoryId = 2,

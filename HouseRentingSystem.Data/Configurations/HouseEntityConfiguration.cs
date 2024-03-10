@@ -11,7 +11,7 @@ namespace HouseRentingSystem.Data.Configurations
         {
             builder
                 .Property(h => h.CreatedOn)
-                .HasDefaultValue(DateTime.UtcNow);
+                .HasDefaultValueSql("GETDATE()");
             //Here we can write fluent api
             //We write it because we want to forbid deleting
             builder
@@ -41,8 +41,7 @@ namespace HouseRentingSystem.Data.Configurations
                 Title = "Big House Marina",
                 Address = "North London, UK (near the border)",
                 Description = "A big house for your whole family. Don't miss to buy a house with three bedrooms.",
-                ImageUrl = "https://i.pinimg.com/originals/a6/f5/85/a6f5850a77633c56e4e4ac4f867e3c00.jpg" +
-                "",
+                ImageUrl = "https://images.rosewoodhotels.com/is/image/rwhg/rosewoodmiramarbeach-beachhousesuiteterrace-1:WIDE-LARGE-16-9",                
                 PricePerMonth = 2100.00M,
                 CategoryId = 3,
                 AgentId = Guid.Parse("2C11E7B0-06B1-44D3-B924-A7514CE7D1F8"), // AgentId
