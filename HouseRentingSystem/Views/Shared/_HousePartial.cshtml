@@ -8,13 +8,13 @@
             <h6>Address: <b>@Model.Address</b></h6>
             <h6>
                 Price Per Month:
-                <b>@String.Format("{0:f2}", Model.PricePerMonth) BGN</b>
+                <b>@($"{Model.PricePerMonth:f2}") BGN</b>              
             </h6>
             <h6>(@(Model.IsRented ? "Rented" : "Not Rented"))</h6>
             <br />
             <a asp-controller="House" asp-action="Details" asp-route-id="@Model.Id"
                class="btn btn-success">Details</a>
-            @if (this.User.Identity.IsAuthenticated)
+            @if (this.User.Identity?.IsAuthenticated ?? false)
             {
                 <a asp-controller="House" asp-action="Edit" asp-route-id="@Model.Id"
                    class="btn btn-warning">Edit</a>
