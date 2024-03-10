@@ -11,5 +11,12 @@ namespace HouseRentingSystem.Web.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        //zarezhdaneto we e async zawoto imme catrorii
+        public async Task<IActionResult> Add()
+        {
+
+        }
     }
 }
