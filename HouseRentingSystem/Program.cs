@@ -1,6 +1,7 @@
 using HouseRentingSystem.Data;
 using HouseRentingSystem.Data.Models;
 using HouseRentingSystem.Services.Data.Interfaces;
+using HouseRentingSystem.Web.Infrastructure.ModelBinders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -33,7 +34,15 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 
 builder.Services.AddApplicationServices(typeof(IHouseService));
 //registrira controllerite
-builder.Services.AddControllersWithViews();
+builder.Services
+    .AddControllersWithViews()
+    //The order is important because if we call default modelbinder for decimal first,
+    //our custom modelbinder will not work, so we put 0 position after Insert
+    //so our custom modelbinder will ovveride the default one
+    .AddMvcOptions(options =>
+    {
+        options.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider());
+    });
 
 //ot tuk red vazhi
 WebApplication app = builder.Build();
