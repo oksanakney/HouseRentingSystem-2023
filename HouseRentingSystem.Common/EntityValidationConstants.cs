@@ -27,6 +27,9 @@ namespace HouseRentingSystem.Common
 
             public const int ImageUrlMaxLength = 2048;
 
+            //kogato validirame decimal, da ne go pishem s to4ki i zapetajki
+            //zawoto se 4upi MNOGO ZHESTOKO range atributa
+            //ako iskame . , custom validation attribute
             public const string PricePerMonthMinValue = "0";
             public const string PricePerMonthMaxValue = "2000";
         }
