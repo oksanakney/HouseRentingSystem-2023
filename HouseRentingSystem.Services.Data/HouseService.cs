@@ -69,7 +69,7 @@ namespace HouseRentingSystem.Services.Data
             }
 
             // If user didnt input anything
-            if (string.IsNullOrWhiteSpace(queryModel.SearchString))
+            if (!string.IsNullOrWhiteSpace(queryModel.SearchString))
             {
                 // % in sql wild cards represents zero or more characters 
                 string wildCard = $"%{queryModel.SearchString.ToLower()}%";

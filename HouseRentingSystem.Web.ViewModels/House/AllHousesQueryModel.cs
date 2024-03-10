@@ -30,6 +30,7 @@ namespace HouseRentingSystem.Web.ViewModels.House
 
         //Ot Kris -> po princip v pove4eto sajtove sami mozheme da reguliarame kolko to4no
         // sa entitita koito visualizirame na edna stranica
+        [Display(Name ="Show Houses On Page")]
         public int HousesPerPage { get; set; }
         public int TotalHouses { get; set; }
 
