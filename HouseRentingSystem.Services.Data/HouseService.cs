@@ -253,14 +253,14 @@ namespace HouseRentingSystem.Services.Data
             await this.dbContext.SaveChangesAsync();
         }
 
-        public async Task<HousePreDeleteDatailsViewModel> GetHouseForDeleteByIdAsync(string houseId)
+        public async Task<HousePreDeleteDetailsViewModel> GetHouseForDeleteByIdAsync(string houseId)
         {
             House house = await this.dbContext
                 .Houses
                 .Where(h => h.IsActive)
                 .FirstAsync(h => h.Id.ToString() == houseId);
 
-            return new HousePreDeleteDatailsViewModel()
+            return new HousePreDeleteDetailsViewModel()
             {
                 Title = house.Title,
                 Address = house.Address,

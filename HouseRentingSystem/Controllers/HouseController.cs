@@ -301,7 +301,7 @@ namespace HouseRentingSystem.Web.Controllers
 
             try
             {
-                HousePreDeleteDatailsViewModel viewModel = 
+                HousePreDeleteDetailsViewModel viewModel = 
                     await this.houseService.GetHouseForDeleteByIdAsync(id);
 
                 return this.View(viewModel);
@@ -313,7 +313,7 @@ namespace HouseRentingSystem.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(string id, HousePreDeleteDatailsViewModel model)
+        public async Task<IActionResult> Delete(string id, HousePreDeleteDetailsViewModel model)
         {
             bool houseExist = await this.houseService
                .ExistsByIdAsync(id);
