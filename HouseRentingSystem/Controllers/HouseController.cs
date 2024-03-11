@@ -104,6 +104,8 @@ namespace HouseRentingSystem.Web.Controllers
                     await this.agentService.GetAgentIdByUserIdAsync(this.User.GetId()!);
 
                 string houseId = await this.houseService.CreateAndReturnIdAsync(model, agentId!);
+
+                this.TempData[SuccessMessage] = "House was added successfully!";
                 return this.RedirectToAction("Details", "House", new { id = houseId });
             }
             catch (Exception)
@@ -256,6 +258,7 @@ namespace HouseRentingSystem.Web.Controllers
                 return this.View(model);
             }
 
+            this.TempData[SuccessMessage] = "House was edited successfully!";
             return this.RedirectToAction("Details", "House", new { id });
         }
 
