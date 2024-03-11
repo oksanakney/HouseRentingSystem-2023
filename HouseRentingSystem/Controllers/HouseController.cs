@@ -440,7 +440,48 @@ namespace HouseRentingSystem.Web.Controllers
 
         }
 
-        
+        [HttpPost]
+        public async Task<IActionResult> Leave(string id)
+        {
+            bool houseExists = await this.houseService.ExistsByIdAsync(id);
+            if (!houseExists)
+            {
+                this.TempData[ErrorMessage] = "House with provided id does not exist! Please try again!";
+
+                return this.RedirectToAction("All", "House");
+            }
+
+            bool isHouseRented = await this.houseService.IsRentedByIdAsync(id);
+
+            if (!isHouseRented)
+            {
+                this.TempData[ErrorMessage] = "Selected house is not rented! Please select one of your houses if you wish to leave them.!";
+
+                return this.RedirectToAction("Mine", "Houses");
+            }
+
+            bool isCurrentUserRenterOfTheHouse =
+                await this.houseService.IsRentedByUserWithIdAsync(id, this.User.GetId()!);
+            if (!isCurrentUserRenterOfTheHouse)
+            {
+                this.TempData[ErrorMessage] = "You must be the renter of the house in order to leave it! Please try again with one of your rented houses if you wish to leave them.";
+
+                return this.RedirectToAction("Mine", "House");
+
+            }
+
+            try
+            {
+                await this.houseService.LeaveHouseAsync(id);
+            }
+            catch (Exception)
+            {
+                return this.GeneralError();
+            }
+
+            return this.RedirectToAction("Mine", "House");
+        }
+
         private IActionResult GeneralError()
         {
             this.TempData[ErrorMessage] =
