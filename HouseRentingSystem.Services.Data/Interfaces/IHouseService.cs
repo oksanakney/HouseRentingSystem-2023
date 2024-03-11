@@ -27,5 +27,9 @@ namespace HouseRentingSystem.Services.Data.Interfaces
 
         Task EditHouseByIdAndFormModelAsync(string houseId, HouseFormModel formModel);
 
+        Task<HousePreDeleteDatailsViewModel> GetHouseForDeleteByIdAsync(string houseId);
+
+        Task DeleteHouseByIdAsync(string houseId);
+
     }
 }

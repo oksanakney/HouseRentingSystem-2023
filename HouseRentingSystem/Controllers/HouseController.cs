@@ -263,6 +263,108 @@ namespace HouseRentingSystem.Web.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> Delete(string id)
+        {
+            bool houseExist = await this.houseService
+               .ExistsByIdAsync(id);
+
+            if (!houseExist)
+            {
+                this.TempData[ErrorMessage] = "House with the provided id does not exist!";
+
+                return this.RedirectToAction("All", "House");
+            }
+
+            //Triabva da proverime i drugi newa: is user agent
+            bool isUseAgent = await this.agentService
+                .AgentExistsByUserIdAsync(this.User.GetId()!);
+
+            if (!isUseAgent)
+            {
+                this.TempData[ErrorMessage] = "You must become an agent in order to edit house info!";
+
+                return this.RedirectToAction("Become", "Agent");
+            }
+
+            //sajt s objavi ne moga da pipam objavi na drugite
+            string? agentId = await this.agentService
+                .GetAgentIdByUserIdAsync(this.User.GetId()!);
+            bool isAgentOwner = await this.houseService
+                .IsAgentWithIdOwnerOfTheHouseWithIdAsync(id, agentId!);
+
+            if (!isAgentOwner)
+            {
+                this.TempData[ErrorMessage] = "You must become the agent owner of the house you want to edit!";
+
+                return this.RedirectToAction("Mine", "House");
+            }
+
+            try
+            {
+                HousePreDeleteDatailsViewModel viewModel = 
+                    await this.houseService.GetHouseForDeleteByIdAsync(id);
+
+                return this.View(viewModel);
+            }
+            catch (Exception)
+            {
+                return this.GeneralError();
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(string id, HousePreDeleteDatailsViewModel model)
+        {
+            bool houseExist = await this.houseService
+               .ExistsByIdAsync(id);
+
+            if (!houseExist)
+            {
+                this.TempData[ErrorMessage] = "House with the provided id does not exist!";
+
+                return this.RedirectToAction("All", "House");
+            }
+
+            //Triabva da proverime i drugi newa: is user agent
+            bool isUseAgent = await this.agentService
+                .AgentExistsByUserIdAsync(this.User.GetId()!);
+
+            if (!isUseAgent)
+            {
+                this.TempData[ErrorMessage] = "You must become an agent in order to edit house info!";
+
+                return this.RedirectToAction("Become", "Agent");
+            }
+
+            //sajt s objavi ne moga da pipam objavi na drugite
+            string? agentId = await this.agentService
+                .GetAgentIdByUserIdAsync(this.User.GetId()!);
+            bool isAgentOwner = await this.houseService
+                .IsAgentWithIdOwnerOfTheHouseWithIdAsync(id, agentId!);
+
+            if (!isAgentOwner)
+            {
+                this.TempData[ErrorMessage] = "You must become the agent owner of the house you want to edit!";
+
+                return this.RedirectToAction("Mine", "House");                 
+            }
+
+            try
+            {
+                await this.houseService.DeleteHouseByIdAsync(id);
+
+                //  TODO: Warning message appears, but it does not show the string! It is empty
+                this.TempData[WarningMessage] = "The house was successfully deleted!";
+
+                return this.RedirectToAction("Mine", "House");
+            }
+            catch (Exception)
+            {
+                return this.GeneralError();
+            }
+        }
+
+        [HttpGet]
         public async Task<IActionResult> Mine()
         {
             List<HouseAllViewModel> myHouses =

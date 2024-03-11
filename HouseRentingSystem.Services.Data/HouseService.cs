@@ -252,5 +252,33 @@ namespace HouseRentingSystem.Services.Data
 
             await this.dbContext.SaveChangesAsync();
         }
+
+        public async Task<HousePreDeleteDatailsViewModel> GetHouseForDeleteByIdAsync(string houseId)
+        {
+            House house = await this.dbContext
+                .Houses
+                .Where(h => h.IsActive)
+                .FirstAsync(h => h.Id.ToString() == houseId);
+
+            return new HousePreDeleteDatailsViewModel()
+            {
+                Title = house.Title,
+                Address = house.Address,
+                ImageUrl = house.ImageUrl
+            };
+
+        }
+
+        public async Task DeleteHouseByIdAsync(string houseId)
+        {
+            House houseToDelete = await this.dbContext
+                .Houses
+                .Where(h => h.IsActive)
+                .FirstAsync(h => h.Id.ToString() == houseId);
+
+            houseToDelete.IsActive = false;
+
+            await this.dbContext.SaveChangesAsync();
+        }
     }
 }
