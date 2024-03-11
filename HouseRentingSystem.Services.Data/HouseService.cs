@@ -126,7 +126,7 @@ namespace HouseRentingSystem.Services.Data
         {
             IEnumerable<HouseAllViewModel> allAgentHouses = await this.dbContext
                 .Houses
-                .Where(h => h.AgentId.ToString() == agentId)
+                .Where(h => h.IsActive && h.AgentId.ToString() == agentId)
                 .Select(h => new HouseAllViewModel()
                 {
                     Id = h.Id.ToString(),
@@ -145,7 +145,8 @@ namespace HouseRentingSystem.Services.Data
         {
             IEnumerable<HouseAllViewModel> allUserHouses = await this.dbContext
                 .Houses
-                .Where(h => h.RenterId.HasValue && h.RenterId.ToString() == userId)
+                .Where(h => h.IsActive &&
+                            h.RenterId.HasValue && h.RenterId.ToString() == userId)
                 .Select(h => new HouseAllViewModel()
                 {
                     Id = h.Id.ToString(),
