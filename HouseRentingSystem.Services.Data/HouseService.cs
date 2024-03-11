@@ -8,6 +8,7 @@ using HouseRentingSystem.Web.ViewModels.House;
 using HouseRentingSystem.Web.ViewModels.House.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Runtime.CompilerServices;
 
 namespace HouseRentingSystem.Services.Data
 {
@@ -277,6 +278,25 @@ namespace HouseRentingSystem.Services.Data
                 .FirstAsync(h => h.Id.ToString() == houseId);
 
             houseToDelete.IsActive = false;
+
+            await this.dbContext.SaveChangesAsync();
+        }
+
+        public async Task<bool> IsRentedByIdAsync(string houseId)
+        {
+            House house = await this.dbContext
+                .Houses
+                .FirstAsync(h => h.Id.ToString() == houseId);
+
+            return house.RenterId.HasValue;
+        }
+
+        public async Task RentHouseAsync(string houseId, string userId)
+        {
+            House house = await this.dbContext
+                .Houses
+                .FirstAsync(h => h.Id.ToString() == houseId);
+            house.RenterId = Guid.Parse(userId);
 
             await this.dbContext.SaveChangesAsync();
         }

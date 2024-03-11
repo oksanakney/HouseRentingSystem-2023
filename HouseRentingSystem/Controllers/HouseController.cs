@@ -397,6 +397,50 @@ namespace HouseRentingSystem.Web.Controllers
             }            
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Rent(string id)
+        {
+            bool houseExists = await this.houseService.ExistsByIdAsync(id);
+            if (!houseExists) 
+            {
+                this.TempData[ErrorMessage] = "House with provided id does not exist! Please try again!";
+
+                return this.RedirectToAction("All", "House");
+            }
+
+            bool isHouseRented = await this.houseService.IsRentedByIdAsync(id);
+
+            if (isHouseRented)
+            {
+                this.TempData[ErrorMessage] = "Selected house is already rented by another user! Please select another house!";
+
+                return this.RedirectToAction("All", "Houses");
+            }
+
+            bool isUserAgent = 
+                await this.agentService.AgentExistsByUserIdAsync(this.User.GetId()!);
+            
+            if (isUserAgent) 
+            {
+                this.TempData[ErrorMessage] = "Agents can not rent houses!Please register as a user!";
+
+                return this.RedirectToAction("Index", "Home");
+            }
+
+            try
+            {
+                await this.houseService.RentHouseAsync(id, this.User.GetId()!);
+            }
+            catch (Exception)
+            {
+                return this.GeneralError();
+            }
+
+            return this.RedirectToAction("Mine", "House");
+
+        }
+
+        
         private IActionResult GeneralError()
         {
             this.TempData[ErrorMessage] =
