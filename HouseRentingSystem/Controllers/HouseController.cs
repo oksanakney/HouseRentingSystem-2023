@@ -114,17 +114,26 @@ namespace HouseRentingSystem.Web.Controllers
         // In _HousePartial asp-route-id -> string id
         public async Task<IActionResult> Details(string id)
         {
-            HouseDetailsViewModel? viewModel = await this.houseService
-                .GetDetailsByIdAsync(id);
+            bool houseExist = await this.houseService
+                .ExistsByIdAsync(id);
 
-            if (viewModel == null)
+            if (!houseExist) 
             {
                 this.TempData[ErrorMessage] = "House with the provided id does not exist!";
 
                 return this.RedirectToAction("All", "House");
             }
 
+            HouseDetailsViewModel viewModel = await this.houseService
+                .GetDetailsByIdAsync(id);
+
             return View(viewModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(string id)
+        {
+
         }
 
         [HttpGet]
