@@ -38,7 +38,7 @@ namespace HouseRentingSystem.Web.Controllers
         }
 
         [HttpGet]
-        //zarezhdaneto we e async zawoto imme catrorii
+        //zarezhdaneto we e async zawoto imame categorii
         public async Task<IActionResult> Add()
         {
             //triabva da proveria dali potrebitelia e agent i ako ne da go naso4i da stane
@@ -107,6 +107,32 @@ namespace HouseRentingSystem.Web.Controllers
             }
 
             return this.RedirectToAction("All", "House");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Mine()
+        {
+            List<HouseAllViewModel> myHouses =
+                new List<HouseAllViewModel>();
+
+            string userId = this.User.GetId()!;
+            bool isUserAgent = await this.agentService
+                .AgentExistsByUserIdAsync(userId);
+
+            if (isUserAgent) 
+            {
+                string? agentId = 
+                    await this.agentService.GetAgentIdByUserIdAsync(userId);
+
+                myHouses.AddRange(await this.houseService.AllByAgentIdAsync(agentId!));
+            }
+
+            else
+            {
+                myHouses.AddRange(await this.houseService.AllByUserIdAsync(userId));
+            }
+
+            return this.View(myHouses);
         }
     }
 }
