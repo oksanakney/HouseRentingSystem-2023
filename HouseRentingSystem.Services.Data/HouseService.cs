@@ -40,7 +40,7 @@ namespace HouseRentingSystem.Services.Data
 
         }
 
-        public async Task CreateAsync(HouseFormModel formModel, string agentId)
+        public async Task<string> CreateAndReturnIdAsync(HouseFormModel formModel, string agentId)
         {
             // Creating of a new model
             House newHouse = new House()
@@ -56,6 +56,8 @@ namespace HouseRentingSystem.Services.Data
 
             await this.dbContext.Houses.AddAsync(newHouse);
             await this.dbContext.SaveChangesAsync();
+
+            return newHouse.Id.ToString();
         }
 
         public async Task<AllHousesFilteredAndPagedServiceModel> AllAsync(AllHousesQueryModel queryModel)

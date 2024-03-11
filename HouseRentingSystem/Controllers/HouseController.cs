@@ -103,7 +103,8 @@ namespace HouseRentingSystem.Web.Controllers
                 string? agentId = 
                     await this.agentService.GetAgentIdByUserIdAsync(this.User.GetId()!);
 
-                await this.houseService.CreateAsync(model, agentId!);
+                string houseId = await this.houseService.CreateAndReturnIdAsync(model, agentId!);
+                return this.RedirectToAction("Details", "House", new { id = houseId });
             }
             catch (Exception)
             {
@@ -112,9 +113,7 @@ namespace HouseRentingSystem.Web.Controllers
                 model.Categories = await this.categoryService.AllCategoriesAsync();
 
                 return this.View(model);
-            }
-
-            return this.RedirectToAction("All", "House");
+            }            
         }
 
         [HttpGet]
